@@ -1,0 +1,37 @@
+#!/bin/python3
+import math
+import os
+import random
+import re
+import sys
+import bisect # import the bisect module to insert in a sorted order and to find index
+
+t = int(input()) # Takes the input of the test cases
+for _ in range(t):
+    n,m = map(int,input().split())    
+    a = list(map(int,input().split())) # input of the array list
+    #sum_set = set()
+    #sum_set.add(0)
+    sub_array_sum = 0 # Has the cumulative sum of the sub arrays
+    mod_sum =0 # Has the result of the cumulative sum modulo m
+    max_sub_array_sum = 0 # find the maximum mod cumualtive sum
+    sorted_sum_array = [0] # Has the sorted cumulative sum array
+
+    for i in range(n):
+        sub_array_sum += a[i] 
+        mod_sum = sub_array_sum % m
+        max_sub_array_sum = max(max_sub_array_sum,mod_sum) 
+        position = bisect.bisect_left(sorted_sum_array,mod_sum+1) # returns the leftmost position 
+        
+
+        #checking = 0
+        #for j in sum_set:
+        if position < len(sorted_sum_array):
+            max_sub_array_sum = max(max_sub_array_sum,(mod_sum-sorted_sum_array[position]+m)%m)
+        bisect.insort(sorted_sum_array,mod_sum) # insert the new sorted array 
+    print(max_sub_array_sum)      # print the maximum value of subarray sum mod m
+    #     if(checking!=0):
+    #         max_sub_array_sum = max(max_sub_array_sum,mod_sum - checking + m)
+    #     sum_set.add(mod_sum)
+    # print(max_sub_array_sum)    
+    
